@@ -1,0 +1,22 @@
+---
+- name: Create VPN folder on Pi.
+  ansible.builtin.file:
+    path: "{{ home_pi_dir }}/vpn"
+    state: directory
+    mode: 0755
+  become: false
+  register: vpn_dir
+
+- name: Copy VPN docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/{{ vpn_template }}.yaml.j2
+    dest: "{{ vpn_dir.path }}/docker-compose.yaml"
+    mode: 0640
+  become: false
+  notify: Restart vpn
+
+- name: Ensure VPN is running.
+  community.docker.docker_compose:
+    project_src: "{{ vpn_dir.path }}/"
+    build: false
+  become: false

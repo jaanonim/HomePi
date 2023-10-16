@@ -1,0 +1,19 @@
+version: "3"
+services:
+  tailscale:
+      privileged: true
+      hostname: tailscale
+      network_mode: host
+      container_name: tailscale
+      image: tailscale/tailscale:latest
+      volumes:
+          - "./data:/var/lib"
+          - "/dev/net/tun:/dev/net/tun"
+      cap_add:
+        - net_admin
+        - sys_module
+      restart: unless-stopped
+      environment:
+        TS_AUTHKEY: "{{ tailscale_key }}"
+        TS_ROUTES: "{{ tailscale_network }}"
+        TS_STATE_DIR: /var/lib/tailscale

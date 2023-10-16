@@ -1,0 +1,54 @@
+version: "3"
+
+networks:
+  prometeus:
+    name: prometeus
+
+services:
+  cadvisor:
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:v0.47.1
+    hostname: cadvisor
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 8080:8080
+    command:
+      - "--housekeeping_interval=30s"
+      - "--max_housekeeping_interval=35s"
+      - "--global_housekeeping_interval=30s"
+      - "--storage_duration=1m0s"
+      - '--store_container_labels=false'
+      - '-docker_only=true'
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+      - /etc/machine-id:/etc/machine-id:ro
+    networks:
+      - prometeus
+      
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter:latest
+    hostname: node-exporter
+    restart: unless-stopped
+    ports:
+      - 9100:9100
+    command:
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --path.rootfs=/host
+      - --collector.filesystem.ignored-mount-points
+      - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /:/host:ro,rslave
+    networks:
+      - prometeus

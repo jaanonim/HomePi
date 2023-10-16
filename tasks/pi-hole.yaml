@@ -1,0 +1,34 @@
+---
+- name: Create Pi-hole folder on Pi.
+  ansible.builtin.file:
+    path: "{{ home_pi_dir }}/pi-hole"
+    state: directory
+    mode: 0755
+  become: false
+  register: pi_hole_dir
+
+- name: Copy Pi-hole docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/pi-hole.yaml.j2
+    dest: "{{ pi_hole_dir.path }}/docker-compose.yaml"
+    mode: 0640
+  become: false
+  notify: Restart pi-hole
+
+- name: Ensure Pi-hole is running.
+  community.docker.docker_compose:
+    project_src: "{{ pi_hole_dir.path }}/"
+    build: false
+  become: false
+
+- name: Update resolveconf for local name server use.
+  ansible.builtin.lineinfile:
+    line: "name_servers=127.0.0.1 8.8.8.8"
+    dest: "/etc/resolvconf.conf"
+    regexp: "^#?name_servers="
+  register: resolvconf_file
+
+- name: Regenerate resolvconf if file is changed.
+  ansible.builtin.command: resolvconf -u
+  changed_when: false
+  when: resolvconf_file is changed

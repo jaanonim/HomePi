@@ -1,0 +1,46 @@
+version: "3"
+
+networks:
+  prometeus:
+    name: prometeus
+
+services:
+  ism:
+    container_name: ism
+    image: jaanonim/ism:latest
+    restart: unless-stopped
+    hostname: ism
+    environment:
+      SECRET_KEY: '{{ ism_secret_key }}'
+      USER_NAME: '{{ ism_username }}'
+      USER_PASSWORD: '{{ ism_password }}'
+      NAS_MAC: '{{ ism_nas_mac }}'
+    network_mode: host
+
+  ism-exporter:
+    container_name: ism-exporter
+    image: jaanonim/ism-exporter:latest
+    restart: unless-stopped
+    hostname: ism-exporter
+    ports:
+      - 5950:5950
+    environment:
+      USERNAME: '{{ ism_username }}'
+      PASSWORD: '{{ ism_password }}'
+      URL: http://{{ ansible_facts['default_ipv4']['address'] }}:5000
+      PULL_INTERVAL: 30
+      NAME: ISMP
+    networks:
+      - prometeus
+
+  ntp:
+    image: cturra/ntp:latest
+    restart: unless-stopped
+    hostname: ism-ntp
+    ports:
+      - 123:123/udp
+    environment:
+      TZ: '{{ ism_timezone }}'
+    networks:
+      - prometeus
+

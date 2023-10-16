@@ -1,0 +1,55 @@
+---
+- name: Check if pip.conf exists
+  stat:
+    path: /etc/pip.conf
+  register: p
+
+- name: Create pip.conf
+  file:
+    path: /etc/pip.conf
+    state: touch
+  when: p.stat.exists is defined and not p.stat.exists
+
+- name: Setup pip config.
+  lineinfile:
+    path: /etc/pip.conf
+    line: "[global]"
+    state: present
+
+- name: Setup pip config.
+  lineinfile:
+    path: /etc/pip.conf
+    insertafter: "[global]"
+    line: nextra-index-url=https://www.piwheels.org/simple"
+    state: present
+
+- name: Ensure dependencies are installed (Debian).
+  ansible.builtin.apt:
+    name:
+      - python3-pip
+      - libffi-dev
+      - python3-dev
+      - libssl-dev
+      - openresolv
+    state: present
+
+- name: Install Docker Compose using Pip.
+  ansible.builtin.pip:
+    name:
+      - docker-compose
+    extra_args: --no-build --break-system-packages
+    state: present
+    executable: pip3
+
+- name: Setup fan.
+  lineinfile:
+    path: /boot/config.txt
+    line: "dtoverlay=gpio-fan,gpiopin={{ fan_pin }},temp={{ fan_temp }}"
+    state: present
+  register: fan_setup
+  when: enable_fan_setup == true
+
+- name: Reboot after fan setup.
+  ansible.builtin.reboot:
+    reboot_timeout: 1800
+  when: fan_setup.changed

@@ -1,0 +1,34 @@
+---
+- name: Create grafana folder on Pi.
+  ansible.builtin.file:
+    path: "{{ home_pi_dir }}/grafana"
+    state: directory
+    mode: 0755
+  become: false
+  register: grafana_dir
+
+- name: Copy Grafana docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: "{{ grafana_dir.path }}/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: grafana.yaml.j2
+      dest: docker-compose.yaml
+    - src: grafana_config.j2
+      dest: grafana_config
+  become: false
+  notify: Restart grafana
+
+- name: Copy Grafana config folder.
+  ansible.builtin.copy:
+    src: grafana/provisioning
+    dest: "{{ grafana_dir.path }}"
+    directory_mode: true
+    mode: 0777
+
+- name: Ensure Grafana is running.
+  community.docker.docker_compose:
+    project_src: "{{ grafana_dir.path }}/"
+    build: false
+  become: false

@@ -1,0 +1,8 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ pihole_domain }}.{{ domain_name }};
+    location / {
+        proxy_pass http://{{ ansible_facts['default_ipv4']['address'] }}:8000;
+    }
+}

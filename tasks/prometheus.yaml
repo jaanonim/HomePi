@@ -1,0 +1,27 @@
+---
+- name: Create Prometheus folder on Pi.
+  ansible.builtin.file:
+    path: "{{ home_pi_dir }}/prometheus"
+    state: directory
+    mode: 0755
+  become: false
+  register: prometheus_dir
+
+- name: Copy Prometheus docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: "{{ prometheus_dir.path }}/{{ item.dest }}"
+    mode: 0644
+  loop:
+    - src: prometheus.yaml.j2
+      dest: docker-compose.yaml
+    - src: prometheus_config.yaml.j2
+      dest: prometheus.yml
+  become: false
+  notify: Restart prometheus
+
+- name: Ensure Prometheus is running.
+  community.docker.docker_compose:
+    project_src: "{{ prometheus_dir.path }}/"
+    build: false
+  become: false

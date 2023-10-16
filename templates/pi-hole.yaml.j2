@@ -1,0 +1,55 @@
+---
+version: "3.5"
+
+networks:
+  prometeus:
+    name: prometeus
+
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    hostname: pihole
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8000:80/tcp"
+    environment:
+      TZ: '{{ pihole_timezone }}'
+      WEBPASSWORD: '{{ pihole_password }}'
+      ServerIP: '{{ ansible_facts['default_ipv4']['address'] }}'
+      VIRTUAL_HOST: {{ pihole_domain }}.{{ domain_name }}
+      VIRTUAL_PORT: 80
+      PROXY_LOCATION: {{ pihole_domain }}
+    dns:
+      - 127.0.0.1
+      - 8.8.8.8
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - prometeus
+    extra_hosts:
+      - "{{ grafana_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+      - "{{ portainer_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+      - "{{ pihole_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+      - "{{ ism_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+
+  pihole-exporter:
+    container_name: pihole-exporter
+    image: ekofr/pihole-exporter:latest
+    restart: unless-stopped
+    hostname: pihole-exporter
+    ports:
+      - "9617:9617"
+    environment:
+      PIHOLE_HOSTNAME: {{ pihole_domain }}.{{ domain_name }}
+      PIHOLE_PASSWORD: '{{ pihole_password }}'
+      INTERVAL: '30s'
+      PORT: 9617
+    networks:
+      - prometeus

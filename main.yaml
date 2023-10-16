@@ -1,0 +1,62 @@
+- name: Configure Home Pi.
+  hosts: raspberry_pi
+  become: true
+
+  vars:
+    swap_file_size_mb: "1024"
+
+  roles:
+    - role: geerlingguy.swap
+    - role: mullholland.docker
+      docker_install_compose: true
+      docker_add_users:
+        - "{{ ansible_user }}"
+    - role: hifis.unattended_upgrades
+
+  pre_tasks:
+    - name: Load configuration (with defaults from example file).
+      ansible.builtin.include_vars: config.yaml
+    - name: Ensure apt cache is up to date.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+  handlers:
+    - name: Include handlers.
+      ansible.builtin.import_tasks: handlers.yaml
+
+  tasks:
+    - name: Setup
+      ansible.builtin.import_tasks: tasks/setup.yaml
+
+    - name: Setup Nginx.
+      ansible.builtin.import_tasks: tasks/nginx.yaml
+      when: enable_nginx == true
+
+    - name: Setup Portainer.
+      ansible.builtin.import_tasks: tasks/portainer.yaml
+      when: enable_portainer == true
+
+    - name: Setup PiHole.
+      ansible.builtin.import_tasks: tasks/pi-hole.yaml
+      when: enable_pihole == true
+
+    - name: Setup ISM.
+      ansible.builtin.import_tasks: tasks/ism.yaml
+      when: enable_ism == true
+
+    - name: Setup Prometheus.
+      ansible.builtin.import_tasks: tasks/prometheus.yaml
+      when: enable_prometheus == true
+
+    - name: Setup Monitoring.
+      ansible.builtin.import_tasks: tasks/monitoring.yaml
+      when: enable_monitoring == true
+
+    - name: Setup Grafana.
+      ansible.builtin.import_tasks: tasks/grafana.yaml
+      when: enable_grafana == true
+
+    - name: Setup VPN.
+      ansible.builtin.import_tasks: tasks/vpn.yaml
+      when: enable_vpn == true

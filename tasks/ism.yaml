@@ -1,0 +1,22 @@
+---
+- name: Create ISM folder on Pi.
+  ansible.builtin.file:
+    path: "{{ home_pi_dir }}/ism"
+    state: directory
+    mode: 0755
+  become: false
+  register: ism_dir
+
+- name: Copy ISM docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/ism.yaml.j2
+    dest: "{{ ism_dir.path }}/docker-compose.yaml"
+    mode: 0640
+  become: false
+  notify: Restart ism
+
+- name: Ensure ISM is running.
+  community.docker.docker_compose:
+    project_src: "{{ ism_dir.path }}/"
+    build: false
+  become: false

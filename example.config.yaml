@@ -1,0 +1,47 @@
+---
+# Services
+enable_fan_setup: true
+enable_nginx: true
+enable_portainer: true
+enable_pihole: true
+enable_ism: false
+enable_prometheus: true
+enable_monitoring: true
+enable_grafana: true
+enable_vpn: true
+
+# Global settings
+home_pi_dir: /home/user
+ansible_user: user
+
+# Domain settings
+domain_name: pi.hole
+grafana_domain: grafana
+portainer_domain: portainer
+pihole_domain: pihole
+ism_domain: ism
+
+# Fan
+fan_pin: 18
+fan_temp: 55000
+
+# Pihole
+pihole_timezone: Europe/Warsaw
+pihole_password: password
+
+# ISM
+ism_secret_key: random-auth-key
+ism_username: user
+ism_password: password
+ism_nas_mac: ff:ff:ff:ff:ff:ff
+ism_timezone: Europe/Warsaw
+
+# Grafana
+grafana_admin_password: password
+
+# VPN
+vpn_template: tailscale # select witch service you want to use
+tailscale_key: tskey-auth-XXXXX
+tailscale_network: 192.168.0.0/24
+twingate_access_token: acccess-token
+twingate_refresh_token: refresh-token
