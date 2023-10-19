@@ -1,6 +1,7 @@
 ---
 # Services
 enable_fan_setup: true
+enable_firewall: true
 enable_nginx: true
 enable_portainer: true
 enable_pihole: true
@@ -24,6 +25,21 @@ ism_domain: ism
 # Fan
 fan_pin: 18
 fan_temp: 55000
+
+# Firewall
+allow_list:
+  - port: 22
+    proto: tcp
+  - port: 80
+    proto: tcp
+  - port: 53
+    proto: tcp
+  - port: 53
+    proto: udp
+  - port: 8000
+    proto: tcp
+  - port: 9000
+    proto: tcp
 
 # Pihole
 pihole_timezone: Europe/Warsaw
