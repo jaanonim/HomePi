@@ -22,6 +22,8 @@ services:
     image: jaanonim/ism-exporter:latest
     restart: unless-stopped
     hostname: ism-exporter
+    depends_on: 
+      - ism
     ports:
       - 5950:5950
     environment:

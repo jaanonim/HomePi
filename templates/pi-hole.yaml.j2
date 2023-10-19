@@ -44,10 +44,13 @@ services:
     image: ekofr/pihole-exporter:latest
     restart: unless-stopped
     hostname: pihole-exporter
+    depends_on: 
+      - pihole
     ports:
       - "9617:9617"
     environment:
-      PIHOLE_HOSTNAME: {{ pihole_domain }}.{{ domain_name }}
+      PIHOLE_HOSTNAME: '{{ ansible_facts['default_ipv4']['address'] }}'
+      PIHOLE_PORT: 8000
       PIHOLE_PASSWORD: '{{ pihole_password }}'
       INTERVAL: '30s'
       PORT: 9617
