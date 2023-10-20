@@ -36,6 +36,12 @@ allow_list:
     proto: tcp
   - port: 53
     proto: udp
+  - port: 123
+    proto: udp
+  - port: 2693
+    proto: tcp
+  - port: 5000
+    proto: tcp
   - port: 8000
     proto: tcp
   - port: 9000
