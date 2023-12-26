@@ -10,6 +10,7 @@ enable_prometheus: true
 enable_monitoring: true
 enable_grafana: true
 enable_vpn: true
+enable_internet: true
 
 # Global settings
 home_pi_dir: /home/user
@@ -67,3 +68,10 @@ tailscale_key: tskey-auth-XXXXX
 tailscale_network: 192.168.0.0/24
 twingate_access_token: acccess-token
 twingate_refresh_token: refresh-token
+
+# Internet
+internet_speedtest_interval: 60m
+internet_ping_interval: 5s
+internet_ping_hosts: # [URL];[HUMAN_READABLE_NAME]
+  - http://www.google.com/;google.com
+  - https://github.com/;github.com

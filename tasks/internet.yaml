@@ -1,0 +1,42 @@
+---
+- name: Create Internet folder.
+  ansible.builtin.file:
+    path: "{{ home_pi_dir }}/internet"
+    state: directory
+    mode: 0755
+  become: false
+  register: internet_dir
+
+- name: Create Internet config folder.
+  ansible.builtin.file:
+    path: "{{ internet_dir.path }}/config"
+    state: directory
+    mode: 0755
+  become: false
+
+- name: Copy Internet docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/internet.yaml.j2
+    dest: "{{ internet_dir.path }}/docker-compose.yaml"
+    mode: 0640
+  become: false
+  notify: Restart internet
+
+- name: Copy Internet config template to Pi.
+  ansible.builtin.template:
+    src: templates/{{ item.src }}
+    dest: "{{ internet_dir.path }}/{{ item.dest }}"
+    mode: 0640
+  loop:
+    - src: blackbox.yaml.j2
+      dest: config/blackbox.yml
+    - src: pinghosts.yaml.j2
+      dest: pinghosts.yaml
+  become: false
+  notify: Restart nginx
+
+- name: Ensure Internet is running.
+  community.docker.docker_compose:
+    project_src: "{{ internet_dir.path }}/"
+    build: false
+  become: false

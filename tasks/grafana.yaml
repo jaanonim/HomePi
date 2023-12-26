@@ -26,6 +26,7 @@
     dest: "{{ grafana_dir.path }}"
     directory_mode: true
     mode: 0777
+  notify: Restart grafana
 
 - name: Ensure Grafana is running.
   community.docker.docker_compose:

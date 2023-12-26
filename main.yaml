@@ -7,19 +7,24 @@
 
   roles:
     - role: geerlingguy.swap
+      tags: setup
     - role: mullholland.docker
       docker_install_compose: true
       docker_add_users:
         - "{{ ansible_user }}"
+      tags: setup
     - role: hifis.unattended_upgrades
+      tags: setup
 
   pre_tasks:
     - name: Load configuration (with defaults from example file).
       ansible.builtin.include_vars: config.yaml
+      tags: always
     - name: Ensure apt cache is up to date.
       ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 3600
+      tags: setup
 
   handlers:
     - name: Include handlers.
@@ -28,35 +33,49 @@
   tasks:
     - name: Setup
       ansible.builtin.import_tasks: tasks/setup.yaml
+      tags: setup
 
     - name: Setup Nginx.
       ansible.builtin.import_tasks: tasks/nginx.yaml
       when: enable_nginx == true
+      tags: nginx
 
     - name: Setup Portainer.
       ansible.builtin.import_tasks: tasks/portainer.yaml
       when: enable_portainer == true
+      tags: portainer
 
     - name: Setup PiHole.
       ansible.builtin.import_tasks: tasks/pi-hole.yaml
       when: enable_pihole == true
+      tags: pi-hole
 
     - name: Setup ISM.
       ansible.builtin.import_tasks: tasks/ism.yaml
       when: enable_ism == true
+      tags: ism
 
     - name: Setup Prometheus.
       ansible.builtin.import_tasks: tasks/prometheus.yaml
       when: enable_prometheus == true
+      tags: prometheus
 
     - name: Setup Monitoring.
       ansible.builtin.import_tasks: tasks/monitoring.yaml
       when: enable_monitoring == true
+      tags: monitoring
+
+    - name: Setup Internet.
+      ansible.builtin.import_tasks: tasks/internet.yaml
+      when: enable_internet == true
+      tags: internet
 
     - name: Setup Grafana.
       ansible.builtin.import_tasks: tasks/grafana.yaml
       when: enable_grafana == true
+      tags: grafana
 
     - name: Setup VPN.
       ansible.builtin.import_tasks: tasks/vpn.yaml
       when: enable_vpn == true
+      tags: vpn

@@ -11,6 +11,7 @@ My setup for my home raspberry pi server.
 - ims - for my custom "smart home system"
 - vpn - for access from outside network
 - monitoring - for monitoring pi performance and temperature
+- internet - for monitoring internet speed
 
 Also it have setup for pi fan and automatic updates.
 

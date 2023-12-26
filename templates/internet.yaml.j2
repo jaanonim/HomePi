@@ -1,0 +1,37 @@
+version: "3"
+
+networks:
+  prometeus:
+    name: prometeus
+
+services:
+  ping:
+    container_name: ping
+    image: prom/blackbox-exporter:latest
+    restart: unless-stopped
+    hostname: ping
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config:/config
+    expose:
+      - 9115
+    ports:
+      - 9115:9115
+    tty: true
+    stdin_open: true
+    command:
+      - '--config.file=/config/blackbox.yml'
+    networks:
+      - prometeus
+
+  speedtest:
+    container_name: speedtest
+    image: miguelndecarvalho/speedtest-exporter:latest
+    restart: unless-stopped
+    hostname: speedtest
+    expose:
+      - 9798
+    ports:
+      - 9798:9798
+    networks:
+      - prometeus

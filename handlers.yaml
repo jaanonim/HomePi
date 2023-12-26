@@ -54,3 +54,10 @@
     build: false
     restarted: true
   become: false
+
+- name: Restart internet
+  community.docker.docker_compose:
+    project_src: "{{ home_pi_dir }}/internet/"
+    build: false
+    restarted: true
+  become: false
