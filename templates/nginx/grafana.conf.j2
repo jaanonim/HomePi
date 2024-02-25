@@ -10,6 +10,17 @@ upstream grafana {
 server {
     listen 80;
     listen [::]:80;
+    server_name {{ grafana_domain }}.{{ domain_name }};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_password_file       /etc/nginx/ssl/cert.pass;
+    ssl_certificate         /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key     /etc/nginx/ssl/cert.key;
 
     server_name {{ grafana_domain }}.{{ domain_name }};
 

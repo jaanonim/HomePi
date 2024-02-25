@@ -36,6 +36,15 @@
   become: false
   notify: Restart nginx
 
+- name: Copy Nginx certificates.
+  ansible.builtin.copy:
+    src: ssl
+    dest: "{{ nginx_dir.path }}"
+    directory_mode: true
+    mode: 0640
+  become: true
+  notify: Restart nginx
+
 - name: Ensure Nginx is running.
   community.docker.docker_compose:
     project_src: "{{ nginx_dir.path }}/"

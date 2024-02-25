@@ -19,6 +19,12 @@ Also it have setup for pi fan and automatic updates.
 
 Create files form examples: `example.config.yaml` and `example.inventory.ini` as `config.yaml` and `inventory.ini`.
 
+Generate ssl certificates for nginx:
+
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/cert.key -out ./ssl/cert.crt
+
+And put passphrase to certificates to `cert.pass` file.
+
 Run playbook (may need to install roles before):
 
     ansible-playbook ./main.yaml
