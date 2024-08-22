@@ -11,6 +11,7 @@ enable_monitoring: true
 enable_grafana: true
 enable_vpn: true
 enable_internet: true
+enable_uptime: true
 
 # Global settings
 home_pi_dir: /home/user
@@ -22,6 +23,7 @@ grafana_domain: grafana
 portainer_domain: portainer
 pihole_domain: pihole
 ism_domain: ism
+uptime_domain: uptime
 
 # Fan
 fan_pin: 18

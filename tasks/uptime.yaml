@@ -1,0 +1,22 @@
+---
+- name: Create Uptime folder on Pi.
+  ansible.builtin.file:
+    path: "{{ home_pi_dir }}/uptime"
+    state: directory
+    mode: 0755
+  become: false
+  register: uptime_dir
+
+- name: Copy Uptime docker-compose template to Pi.
+  ansible.builtin.template:
+    src: templates/uptime.yaml.j2
+    dest: "{{ uptime_dir.path }}/docker-compose.yaml"
+    mode: 0640
+  become: false
+  notify: Restart uptime
+
+- name: Ensure Uptime is running.
+  community.docker.docker_compose:
+    project_src: "{{ uptime_dir.path }}/"
+    build: false
+  become: false

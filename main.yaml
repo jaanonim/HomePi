@@ -79,3 +79,8 @@
       ansible.builtin.import_tasks: tasks/vpn.yaml
       when: enable_vpn == true
       tags: vpn
+
+    - name: Setup Uptime.
+      ansible.builtin.import_tasks: tasks/uptime.yaml
+      when: enable_uptime == true
+      tags: uptime

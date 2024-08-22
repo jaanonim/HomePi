@@ -1,0 +1,26 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ uptime_domain }}.{{ domain_name }};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_password_file       /etc/nginx/ssl/cert.pass;
+    ssl_certificate         /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key     /etc/nginx/ssl/cert.key;
+
+    server_name {{ uptime_domain }}.{{ domain_name }};
+    location / {
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   Host $host;
+        proxy_pass http://{{ ansible_facts['default_ipv4']['address'] }}:3001;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection "upgrade";
+    }
+}

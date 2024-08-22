@@ -33,6 +33,7 @@
     - pihole.conf
     - portainer.conf
     - ism.conf
+    - uptime.conf
   become: false
   notify: Restart nginx
 

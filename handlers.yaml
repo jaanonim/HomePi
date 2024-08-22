@@ -61,3 +61,10 @@
     build: false
     restarted: true
   become: false
+
+- name: Restart uptime
+  community.docker.docker_compose:
+    project_src: "{{ home_pi_dir }}/uptime/"
+    build: false
+    restarted: true
+  become: false
