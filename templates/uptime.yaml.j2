@@ -4,6 +4,8 @@ services:
         container_name: uptime-kuma
         image: louislam/uptime-kuma:latest
         restart: unless-stopped
+        dns:
+            - {{ ansible_facts['default_ipv4']['address'] }}
         ports:
             - 3001:3001
         volumes:

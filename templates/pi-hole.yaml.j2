@@ -12,8 +12,8 @@ services:
     restart: unless-stopped
     hostname: pihole
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
+      - "{{ ansible_facts['default_ipv4']['address'] }}:53:53/tcp"
+      - "{{ ansible_facts['default_ipv4']['address'] }}:53:53/udp"
       - "8000:80/tcp"
     environment:
       TZ: '{{ pihole_timezone }}'
@@ -24,7 +24,7 @@ services:
       PROXY_LOCATION: {{ pihole_domain }}
     dns:
       - 127.0.0.1
-      - 8.8.8.8
+      - {{ secondary_dns }}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - './etc-pihole/:/etc/pihole/'

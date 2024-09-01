@@ -16,6 +16,7 @@ enable_uptime: true
 # Global settings
 home_pi_dir: /home/user
 ansible_user: user
+secondary_dns: 1.1.1.1
 
 # Domain settings
 domain_name: pi.hole
