@@ -76,7 +76,3 @@ twingate_refresh_token: refresh-token
 
 # Internet
 internet_speedtest_interval: 60m
-internet_ping_interval: 5s
-internet_ping_hosts: # [URL];[HUMAN_READABLE_NAME]
-  - http://www.google.com/;google.com
-  - https://github.com/;github.com
