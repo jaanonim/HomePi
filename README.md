@@ -25,6 +25,10 @@ Generate ssl certificates for nginx:
 
 And put passphrase to certificates to `cert.pass` file.
 
-Run playbook (may need to install roles before):
+Install roles:
+
+    ansible-galaxy role install geerlingguy.swap mullholland.docker hifis.unattended_upgrades
+
+Run playbook:
 
     ansible-playbook ./main.yaml

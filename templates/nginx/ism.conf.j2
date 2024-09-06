@@ -19,7 +19,7 @@ server {
     listen [::]:443 ssl;
 
     ssl_password_file       /etc/nginx/ssl/cert.pass;
-    ssl_certificate         /etc/nginx/ssl/cert.pem;
+    ssl_certificate         /etc/nginx/ssl/cert.crt;
     ssl_certificate_key     /etc/nginx/ssl/cert.key;
     
     server_name {{ ism_domain }}.{{ domain_name }};
