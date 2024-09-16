@@ -26,6 +26,10 @@ pihole_domain: pihole
 ism_domain: ism
 uptime_domain: uptime
 
+# SSL
+ssl_certificate_filename: cert-full.pem
+ssl_certificate_key_filename: cert-key.pem
+
 # Fan
 fan_pin: 18
 fan_temp: 55000
