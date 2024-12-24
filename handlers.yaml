@@ -68,3 +68,10 @@
     build: false
     restarted: true
   become: false
+
+- name: Restart wakatime
+  community.docker.docker_compose:
+    project_src: "{{ home_pi_dir }}/wakatime/"
+    build: false
+    restarted: true
+  become: false

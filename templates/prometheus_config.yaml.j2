@@ -51,3 +51,8 @@ scrape_configs:
     scrape_timeout: 60s  # running speedtest needs time to complete
     static_configs:
       - targets: ['speedtest:9798']
+
+  - job_name: wakatime-exporter
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['wakatime-exporter:9212']

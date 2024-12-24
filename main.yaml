@@ -84,3 +84,8 @@
       ansible.builtin.import_tasks: tasks/uptime.yaml
       when: enable_uptime == true
       tags: uptime
+
+    - name: Setup Wakatime.
+      ansible.builtin.import_tasks: tasks/wakatime.yaml
+      when: enable_wakatime == true
+      tags: wakatime

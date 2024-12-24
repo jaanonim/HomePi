@@ -12,6 +12,7 @@ enable_grafana: true
 enable_vpn: true
 enable_internet: true
 enable_uptime: true
+enable_wakatime: true
 
 # Global settings
 home_pi_dir: /home/user
@@ -80,3 +81,6 @@ twingate_refresh_token: refresh-token
 
 # Internet
 internet_speedtest_interval: 60m
+
+# Wakatime
+wakatime_api_key: waka_XXXXXX
