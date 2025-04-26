@@ -29,7 +29,5 @@
   notify: Restart grafana
 
 - name: Ensure Grafana is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ grafana_dir.path }}/"
-    build: false
-  become: false

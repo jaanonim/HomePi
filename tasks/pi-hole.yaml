@@ -16,10 +16,8 @@
   notify: Restart pi-hole
 
 - name: Ensure Pi-hole is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ pi_hole_dir.path }}/"
-    build: false
-  become: false
 
 - name: Update resolveconf for local name server use.
   ansible.builtin.lineinfile:

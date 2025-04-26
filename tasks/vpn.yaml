@@ -16,7 +16,5 @@
   notify: Restart vpn
 
 - name: Ensure VPN is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ vpn_dir.path }}/"
-    build: false
-  become: false

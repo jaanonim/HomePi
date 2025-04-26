@@ -16,7 +16,5 @@
   notify: Restart internet
 
 - name: Ensure Internet is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ internet_dir.path }}/"
-    build: false
-  become: false

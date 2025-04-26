@@ -45,6 +45,11 @@
       when: enable_portainer == true
       tags: portainer
 
+    - name: Setup Prometheus.
+      ansible.builtin.import_tasks: tasks/prometheus.yaml
+      when: enable_prometheus == true
+      tags: prometheus
+
     - name: Setup PiHole.
       ansible.builtin.import_tasks: tasks/pi-hole.yaml
       when: enable_pihole == true
@@ -54,11 +59,6 @@
       ansible.builtin.import_tasks: tasks/ism.yaml
       when: enable_ism == true
       tags: ism
-
-    - name: Setup Prometheus.
-      ansible.builtin.import_tasks: tasks/prometheus.yaml
-      when: enable_prometheus == true
-      tags: prometheus
 
     - name: Setup Monitoring.
       ansible.builtin.import_tasks: tasks/monitoring.yaml

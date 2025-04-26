@@ -47,7 +47,5 @@
   notify: Restart nginx
 
 - name: Ensure Nginx is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ nginx_dir.path }}/"
-    build: false
-  become: false

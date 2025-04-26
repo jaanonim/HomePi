@@ -16,7 +16,5 @@
   notify: Restart uptime
 
 - name: Ensure Uptime is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ uptime_dir.path }}/"
-    build: false
-  become: false

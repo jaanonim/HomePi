@@ -16,7 +16,5 @@
   notify: Restart monitoring
 
 - name: Ensure Monitoring is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ monitoring_dir.path }}/"
-    build: false
-  become: false

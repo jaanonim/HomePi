@@ -16,7 +16,5 @@
   notify: Restart wakatime
 
 - name: Ensure Wakatime is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ wakatime_dir.path }}/"
-    build: false
-  become: false

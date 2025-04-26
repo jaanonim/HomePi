@@ -16,7 +16,5 @@
   notify: Restart ism
 
 - name: Ensure ISM is running.
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ ism_dir.path }}/"
-    build: false
-  become: false

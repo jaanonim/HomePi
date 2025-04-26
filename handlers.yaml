@@ -1,77 +1,66 @@
 ---
 - name: Restart pi-hole
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/pi-hole/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart portainer
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/portainer/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart ism
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/ism/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart prometheus
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/prometheus/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart monitoring
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/monitoring/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart grafana
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/grafana/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart vpn
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/vpn/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart nginx
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/nginx/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart internet
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/internet/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart uptime
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/uptime/"
-    build: false
     restarted: true
   become: false
 
 - name: Restart wakatime
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ home_pi_dir }}/wakatime/"
-    build: false
     restarted: true
   become: false
