@@ -34,6 +34,7 @@
     - portainer.conf
     - ism.conf
     - uptime.conf
+    - homepage.conf
   become: false
   notify: Restart nginx
 

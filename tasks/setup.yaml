@@ -45,7 +45,7 @@
 
 - name: Setup fan.
   lineinfile:
-    path: /boot/config.txt
+    path: /boot/firmware/config.txt
     line: "dtoverlay=gpio-fan,gpiopin={{ fan_pin }},temp={{ fan_temp }}"
     state: present
   register: fan_setup

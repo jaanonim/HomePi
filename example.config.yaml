@@ -13,6 +13,7 @@ enable_vpn: true
 enable_internet: true
 enable_uptime: true
 enable_wakatime: true
+enable_homepage: true
 
 # Global settings
 home_pi_dir: /home/user
@@ -26,6 +27,7 @@ portainer_domain: portainer
 pihole_domain: pihole
 ism_domain: ism
 uptime_domain: uptime
+homepage_domain: home
 
 # SSL
 ssl_certificate_filename: cert-full.pem
@@ -50,6 +52,8 @@ allow_list:
   - port: 443
     proto: tcp
   - port: 2693
+    proto: tcp
+  - port: 3000
     proto: tcp
   - port: 5000
     proto: tcp

@@ -42,6 +42,7 @@ services:
       - "{{ pihole_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
       - "{{ ism_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
       - "{{ uptime_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
+      - "{{ homepage_domain }}.{{ domain_name }}:{{ ansible_facts['default_ipv4']['address'] }}"
 
   pihole-exporter:
     container_name: pihole-exporter

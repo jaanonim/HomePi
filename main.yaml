@@ -89,3 +89,8 @@
       ansible.builtin.import_tasks: tasks/wakatime.yaml
       when: enable_wakatime == true
       tags: wakatime
+
+    - name: Setup Homepage.
+      ansible.builtin.import_tasks: tasks/homepage.yaml
+      when: enable_homepage == true
+      tags: homepage
